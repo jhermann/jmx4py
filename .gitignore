@@ -1,0 +1,7 @@
+# Ignore virtualenv dirs
+bin/
+include/
+lib/
+
+# Ignore distutils dirs
+build/

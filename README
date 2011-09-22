@@ -1,0 +1,39 @@
+jmx4py - A Python Client for the Jolokia JMX Agent
+==================================================
+
+Jolokia is a JMX-HTTP bridge giving an alternative to JSR-160 connectors. 
+It is an agent based approach with support for many platforms. In addition 
+to basic JMX operations it enhances JMX remoting with unique features like 
+bulk requests or fine grained security policies. 
+
+jmx4py offers a client API similar to the existing Jolokia clients for Perl 
+(jmx4perl), Java and Javascript. Additionally, it'll build upon the basic
+API and offer further features related to monitoring and controlling JVMs
+via JMX using Python.
+
+
+SETUP
+
+To create a working directory, follow these steps on a POSIX system:
+
+    git clone git://github.com/jhermann/jmx4py.git
+    cd jmx4py
+    ./bootstrap.py
+    . ./bin/activate
+    
+Note that an already activated Python virtualenv is used for the project, 
+otherwise a new one is created locally. In either case necessary tools are 
+then installed into the chosen virtualenv. See the bootstrap script for 
+details.
+
+A similar procedure should work on Windows, but is not yet tested (reports welcome):
+
+    git clone git://github.com/jhermann/jmx4py.git
+    cd jmx4py
+    python bootstrap.py
+
+
+REFERENCES
+    Jolokia - http://www.jolokia.org/
+    Paver - http://paver.github.com/paver/
+
