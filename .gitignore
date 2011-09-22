@@ -1,7 +1,10 @@
 # Ignore virtualenv dirs
-bin/
-include/
-lib/
+bin
+include
+lib
 
-# Ignore distutils dirs
-build/
+# Ignore distutils stuff
+build
+dist
+setup.py
+src/*.egg-info
