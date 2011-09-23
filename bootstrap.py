@@ -5,7 +5,7 @@
     pydev/Eclipse one), or creates a virtualenv in the working directory,
     and then installs the basic tooling to get you started. The script
     works for any project that is built using Paver, and has no extra
-    requirements on the host than a basic Python installation.
+    requirements on the host beyond a basic Python installation.
 """
 import os
 import sys
@@ -23,8 +23,11 @@ TOOLS = [
     "distribute>=0.6",
     "yolk",
     "Paver >= 1.0",
+    "nose",
+    #"nosexcover",
+    #"NoseXUnit",
+    "coverage",
 ]
-
 
 def _get_real_python():
     "Get path to the machine's python executable."

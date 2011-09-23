@@ -8,3 +8,6 @@ build
 dist
 setup.py
 src/*.egg-info
+
+# Other build artefacts
+.coverage

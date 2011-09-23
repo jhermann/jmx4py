@@ -35,5 +35,6 @@ A similar procedure should work on Windows, but is not yet tested (reports welco
 
 REFERENCES
     Jolokia - http://www.jolokia.org/
+    jmx4py @ PyPI - http://pypi.python.org/pypi/jmx4py/
     Paver - http://paver.github.com/paver/
 
