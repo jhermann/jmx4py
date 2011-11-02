@@ -4,7 +4,7 @@
     This either uses an already activated Python virtualenv (e.g. a
     pydev/Eclipse one), or creates a virtualenv in the working directory,
     and then installs the basic tooling to get you started. The script
-    works for any project that is built using Paver, and has no extra
+    works for any project that is built using Paver, and it has no extra
     requirements on the host beyond a basic Python installation.
 """
 import os
