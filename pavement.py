@@ -27,6 +27,7 @@
 import os
 import re
 import sys
+from contextlib import closing
 
 from setuptools import find_packages
 
@@ -38,6 +39,10 @@ from paver.setuputils import setup
 # Project Setup
 #
 name, version = re.match(r"(\S+) \(([.\d]+)\)", open("debian/changelog").readline()).groups()
+
+# You can override this with a local proxy URL, if available
+JOLOKIA_REPO_URL = os.environ.get("JOLOKIA_REPO_URL", "http://labs.consol.de/maven/repository")
+jolokia_version = "1.0.0"
 
 project = dict(
     name = name,
@@ -94,9 +99,19 @@ project = dict(
 # Helpers
 #
 def fail(msg):
-    "Print error message and exit."
+    "Print error message and exit"
     error("BUILD ERROR: " + msg)
     sys.exit(1)
+
+
+def copy_url(url, dest):
+    "Helper to copy an URL"
+    import urllib2, shutil
+
+    info("GET %s => %s" % (url, dest))
+    with closing(urllib2.urlopen(url)) as url_handle:
+        with closing(open(dest, "wb")) as dest_handle:
+            shutil.copyfileobj(url_handle, dest_handle)
 
 
 #
@@ -116,7 +131,16 @@ def functest():
             if not jars:
                 fail("Maven build failed to produce an artifact!")
 
-        sh("java -jar %s" % jars[0].abspath())
+        if not path("target/jolokia-jvm-agent.jar").exists():
+            copy_url(
+                "%s/org/jolokia/jolokia-jvm/%s/jolokia-jvm-%s-agent.jar" % (JOLOKIA_REPO_URL, jolokia_version, jolokia_version),
+                "target/jolokia-jvm-agent.jar")
+
+        jolokia_props_path = path(base_dir) / "java" / "jolokia.properties"
+        jolokia_props = dict((key, val.strip()) for key, val in (
+            line.split(':', 1) for line in jolokia_props_path.lines() if ':' in line))
+        sh("java -javaagent:target/jolokia-jvm-agent.jar=config=%s -jar %s" % (jolokia_props_path, jars[0].abspath()))
+        # jolokia_props["port"]
 
 
 #
