@@ -28,6 +28,11 @@ TOOLS = [
     #"NoseXUnit",
     "coverage",
 ]
+EXTRA_TOOLS = [
+    "bpython",
+    "pylint",
+]
+
 
 def _get_real_python():
     "Get path to the machine's python executable."
@@ -88,6 +93,10 @@ def run():
 
     for tool in TOOLS:
         subprocess.check_call([installer] + INSTALL_ARGS + [tool])
+
+    if len(sys.argv) > 1 and sys.argv[1] == "full":
+        for tool in EXTRA_TOOLS:
+            subprocess.check_call([installer] + INSTALL_ARGS + [tool])
     
 
 if __name__ == "__main__":
