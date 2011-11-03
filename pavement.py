@@ -91,12 +91,37 @@ project = dict(
 
 
 #
+# Helpers
+#
+def fail(msg):
+    "Print error message and exit."
+    error("BUILD ERROR: " + msg)
+    sys.exit(1)
+
+
+#
 # Tasks
 #
+@task
+def functest():
+    "Integration tests against a live JVM"
+    if not sh("which mvn", capture=True, ignore_error=True): 
+        fail("Maven build tool not installed / available on your path!")
+
+    with pushd("java/testjvm") as base_dir:
+        jars = path("target").glob("jmx4py-*.jar")
+        if not jars:
+            sh("mvn package")
+            jars = path("target").glob("jmx4py-*.jar")
+            if not jars:
+                fail("Maven build failed to produce an artifact!")
+
+        sh("java -jar %s" % jars[0].abspath())
 
 
 #
 # Main
 #
-setup(**project)
+print sys.argv
+#setup(**project)
 

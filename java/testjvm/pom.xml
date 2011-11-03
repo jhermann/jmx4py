@@ -14,6 +14,23 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <build>
+        <plugins>
+            <!-- Include main class information in the JAR manifest -->
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>org.jolokia.jmx4py.testjvm.App</mainClass>
+                            <packageName>org.jolokia.jmx4py.testjvm</packageName>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -22,4 +39,5 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
 </project>
