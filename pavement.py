@@ -114,6 +114,13 @@ def copy_url(url, dest):
             shutil.copyfileobj(url_handle, dest_handle)
 
 
+def pylint(opts=""):
+    "Call pylint"
+    sh("./bin/pylint %s --rcfile pylint.rc --import-graph=%s %s" % (
+            opts, path("build/imports.png").abspath(), project["name"]),
+        ignore_error=True) # TODO: should check for return code ERROR bits and fail on errors
+
+
 #
 # Tasks
 #
@@ -143,9 +150,21 @@ def functest():
         # jolokia_props["port"]
 
 
+@task
+def lint():
+    "Automatic source code check"
+    pylint("-rn")
+
+
+@task
+@needs("bdist_egg")
+def integration():
+    "Run all tasks adequate for continuous integration"
+    pylint(">build/lint.log -ry")
+    
+
 #
 # Main
 #
-print sys.argv
-#setup(**project)
+setup(**project)
 
