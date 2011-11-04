@@ -135,7 +135,7 @@ def run():
     #sed -ie 's/coverage == 2.85/coverage >= 2.85/' \
     #$(find lib/ -path '*/site-packages/NoseXUnit*/EGG-INFO/requires.txt')
 
-    subprocess.call("./bin/paver develop -U")
+    subprocess.call("./bin/paver develop -U", shell=True)
 
 
 if __name__ == "__main__":
