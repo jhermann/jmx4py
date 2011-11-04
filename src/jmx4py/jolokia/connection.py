@@ -22,6 +22,8 @@ class JmxConnection(object):
 
     @classmethod
     def from_url(cls, url):
+        """ Create a connection from the given URL using the scheme registry.
+        """
         try:
             # Support the common socket pair for HTTP connections to the default context
             host, port = url
