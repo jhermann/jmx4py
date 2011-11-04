@@ -171,18 +171,17 @@ def lint():
 
 
 @task
+def tests():
+    "Execute unit tests"
+    # The nosetests task does dirty things to the process environment, spawn a new one
+    sh("nosetests")
+
+
+@task
 def integration():
     "Run all tasks adequate for continuous integration"
     call_task("build")
-    
-    # nosetests does dirty things to the process environment, try to fix things
-    with pushd("."):
-        try:
-            call_task("nosetests")
-        except SystemExit, exc:
-            if exc.code:
-                fail("Tests exited with RC=%d" % exc.code)
-
+    call_task("tests")
     pylint(">build/lint.log -ry")
     call_task("docs")
     call_task("sdist")
