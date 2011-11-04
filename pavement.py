@@ -91,8 +91,16 @@ project = dict(
         #"Topic :: System :: Clustering",
         #"Topic :: System :: Distributed Computing",
         #"Topic :: Utilities",
-    ],
+    ], 
 )
+
+options(
+    setup = project,
+    sphinx = Bunch(
+        builddir = "../build",
+    ),
+)
+setup(**project)
 
 
 #
@@ -151,20 +159,32 @@ def functest():
 
 
 @task
+def docs():
+    "Build documentation"
+    call_task("paver.doctools.html")
+
+
+@task
 def lint():
     "Automatic source code check"
     pylint("-rn")
 
 
 @task
-@needs("bdist_egg")
 def integration():
     "Run all tasks adequate for continuous integration"
-    pylint(">build/lint.log -ry")
+    call_task("build")
     
+    # nosetests does dirty things to the process environment, try to fix things
+    with pushd("."):
+        try:
+            call_task("nosetests")
+        except SystemExit, exc:
+            if exc.code:
+                fail("Tests exited with RC=%d" % exc.code)
 
-#
-# Main
-#
-setup(**project)
+    pylint(">build/lint.log -ry")
+    call_task("docs")
+    call_task("sdist")
+    call_task("bdist_egg")
 

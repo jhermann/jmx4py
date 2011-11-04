@@ -19,7 +19,7 @@ INSTALL_ARGS = [
     "-i", "http://pypi.python.org/pypi",
     "-U",
 ]
-TOOLS = [
+TOOLS = [ # what you need pretty much always
     "distribute>=0.6",
     "yolk",
     "Paver >= 1.0",
@@ -28,9 +28,10 @@ TOOLS = [
     #"NoseXUnit",
     "coverage",
 ]
-EXTRA_TOOLS = [
-    "bpython",
+EXTRA_TOOLS = [ # only needed in integration builds and for releasing
+    "sphinx",
     "pylint",
+    "bpython",
 ]
 
 
