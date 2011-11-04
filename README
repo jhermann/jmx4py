@@ -18,7 +18,7 @@ To create a working directory, follow these steps on a POSIX system:
 
     git clone git://github.com/jhermann/jmx4py.git
     cd jmx4py
-    ./bootstrap.py
+    ./bootstrap.py clean full local
     . ./bin/activate
     
 Note that an already activated Python virtualenv is used for the project, 
@@ -30,7 +30,19 @@ A similar procedure should work on Windows, but is not yet tested (reports welco
 
     git clone git://github.com/jhermann/jmx4py.git
     cd jmx4py
-    python bootstrap.py
+    python bootstrap.py clean full local
+
+
+INSTALLATION
+
+TODO: setup.py install / pip install / virtualenv install
+
+
+USAGE
+
+jmx4py offers the following command line tools... TODO
+
+For using jmx4py from Python, consult the API documentation available at TODO
 
 
 REFERENCES
