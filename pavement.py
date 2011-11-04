@@ -182,7 +182,7 @@ def integration():
     "Run all tasks adequate for continuous integration"
     call_task("build")
     call_task("tests")
-    pylint(">build/lint.log -ry")
+    pylint(">build/lint.log -ry -f parseable")
     call_task("docs")
     call_task("sdist")
     call_task("bdist_egg")
