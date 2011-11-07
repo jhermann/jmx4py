@@ -1,9 +1,12 @@
 """ Unit tests.
 """
-from jmx4py.jolokia.connection import JmxConnection
+import unittest
+from nose.plugins.attrib import attr
+
+from jmx4py.jolokia import client, connection
 
 
-class JmxMockedConnection(JmxConnection):
+class JmxMockedConnection(connection.JmxConnection):
     """ JMX Proxy Connection Mock.
     """
 
@@ -22,4 +25,13 @@ class JmxMockedConnection(JmxConnection):
         """ Close the connection and release associated resources.
         """
 
-JmxConnection.register("mock", JmxMockedConnection)
+connection.JmxConnection.register("mock", JmxMockedConnection)
+
+
+@attr("jvm")
+class JvmTestCase(unittest.TestCase):
+    """ Test base class that provides an already prepared client.
+    """ 
+    
+    def setUp(self):
+        self.proxy = client.JmxClient(("localhost", 8089))  

@@ -134,8 +134,8 @@ def pylint(opts=""):
 # Tasks
 #
 @task
-def functest():
-    "Integration tests against a live JVM"
+def jvmtests():
+    "Run integration tests against a live JVM"
     if not sh("which mvn", capture=True, ignore_error=True): 
         fail("Maven build tool not installed / available on your path!")
 
@@ -171,9 +171,9 @@ def functest():
 
         try:
             # Run tests
-            jolokia_url = "http://localhost:%(port)s/jolokia/" % jolokia_props
-            print jolokia_url
-            time.sleep(1000)
+            ##jolokia_url = "http://localhost:%(port)s/jolokia/" % jolokia_props; print jolokia_url; time.sleep(1000)
+            with pushd(base_dir):
+                sh("nosetests -a jvm") # run all tests!
         except KeyboardInterrupt:
             fail("Aborted by CTRL-C")
         finally:
@@ -197,7 +197,7 @@ def lint():
 @task
 def tests():
     "Execute unit tests"
-    # The nosetests task does dirty things to the process environment, spawn a new one
+    # The nosetests task does dirty things to the process environment, spawn a new process
     sh("nosetests")
 
 
@@ -205,7 +205,7 @@ def tests():
 def integration():
     "Run all tasks adequate for continuous integration"
     call_task("build")
-    call_task("tests")
+    call_task("jvmtests")
     pylint(">build/lint.log -ry -f parseable")
     call_task("docs")
     call_task("sdist")

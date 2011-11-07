@@ -4,7 +4,7 @@ import logging
 import unittest
 import urllib2
 
-from tests import JmxMockedConnection
+from tests import JmxMockedConnection, JvmTestCase
 from jmx4py.jolokia.connection import JmxHttpConnection
 from jmx4py.jolokia.client import * #@UnusedWildImport
 
@@ -31,3 +31,8 @@ class JmxClientTest(unittest.TestCase):
     def test_bad_port(self):
         self.failUnlessRaises(urllib2.URLError, JmxClient, ("localhost", "x"))
 
+
+class JmxClientJvmTest(JvmTestCase):
+    
+    def test_version(self):
+        pass

@@ -33,7 +33,7 @@ class JmxConnection(object):
             except (TypeError, ValueError), exc:
                 raise urllib2.URLError("Bad port in (host, port) pair %r (%s)" % (url, exc)) 
             
-            return JmxHttpConnection("http://%s:%d/jolokia" % (host, port)) 
+            return JmxHttpConnection("http://%s:%d/jolokia/" % (host, port)) 
         except (TypeError, ValueError): 
             url_scheme = url.split(':', 1)[0].lower()
             if url_scheme not in cls.registry:
@@ -67,17 +67,21 @@ class JmxHttpConnection(JmxConnection):
     def __init__(self, url):
         """ Create a proxy connection.
         """
-        url = url.rstrip('/') + '/'
         super(JmxHttpConnection, self).__init__(url)
+        self.url = self.url.rstrip('/') + '/'
+        self._open = False
 
 
     def open(self):
         """ Open the connection.
         """
-        raise NotImplementedError()
+        # Currently, we have no connection pooling, so this is basically a NOP
+        self._open = True
 
 
     def close(self):
         """ Close the connection and release associated resources.
         """
-        raise NotImplementedError()
+        self._open = False
+
+
