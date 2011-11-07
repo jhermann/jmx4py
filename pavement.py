@@ -27,6 +27,7 @@
 import os
 import re
 import sys
+import time
 from contextlib import closing
 
 from setuptools import find_packages
@@ -139,6 +140,7 @@ def functest():
         fail("Maven build tool not installed / available on your path!")
 
     with pushd("java/testjvm") as base_dir:
+        # Build test app if not there
         jars = path("target").glob("jmx4py-*.jar")
         if not jars:
             sh("mvn package")
@@ -146,16 +148,38 @@ def functest():
             if not jars:
                 fail("Maven build failed to produce an artifact!")
 
+        # Get agent if not there
         if not path("target/jolokia-jvm-agent.jar").exists():
             copy_url(
                 "%s/org/jolokia/jolokia-jvm/%s/jolokia-jvm-%s-agent.jar" % (JOLOKIA_REPO_URL, jolokia_version, jolokia_version),
                 "target/jolokia-jvm-agent.jar")
 
+        # Start test JVM in background
         jolokia_props_path = path(base_dir) / "java" / "jolokia.properties"
         jolokia_props = dict((key, val.strip()) for key, val in (
             line.split(':', 1) for line in jolokia_props_path.lines() if ':' in line))
-        sh("java -javaagent:target/jolokia-jvm-agent.jar=config=%s -jar %s" % (jolokia_props_path, jars[0].abspath()))
-        # jolokia_props["port"]
+        guard_file = path("/tmp/jmx4py-test-guard-%d" % os.getuid())
+        sh("java -javaagent:target/jolokia-jvm-agent.jar=config=%s -jar %s %s &" % (
+            jolokia_props_path, jars[0].abspath(), guard_file))
+        for _ in range(50):
+            if guard_file.exists():
+                print "JVM name:", guard_file.text().strip()
+                break
+            time.sleep(.1)
+        else:
+            fail("JVM start failed")
+
+        try:
+            # Run tests
+            jolokia_url = "http://localhost:%(port)s/jolokia/" % jolokia_props
+            print jolokia_url
+            time.sleep(1000)
+        except KeyboardInterrupt:
+            fail("Aborted by CTRL-C")
+        finally:
+            # Stop test JVM
+            guard_file.remove()
+            time.sleep(1)
 
 
 @task

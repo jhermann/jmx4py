@@ -12,6 +12,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <exec.mainClass>org.jolokia.jmx4py.testjvm.App</exec.mainClass>
     </properties>
 
     <build>
@@ -22,7 +23,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>org.jolokia.jmx4py.testjvm.App</mainClass>
+                            <mainClass>${exec.mainClass}</mainClass>
                             <packageName>org.jolokia.jmx4py.testjvm</packageName>
                         </manifest>
                     </archive>
