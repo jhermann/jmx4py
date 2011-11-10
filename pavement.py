@@ -28,6 +28,7 @@ import os
 import re
 import sys
 import time
+import tempfile
 from contextlib import closing
 
 from setuptools import find_packages
@@ -130,12 +131,8 @@ def pylint(opts=""):
         ignore_error=True) # TODO: should check for return code ERROR bits and fail on errors
 
 
-#
-# Tasks
-#
-@task
-def jvmtests():
-    "Run integration tests against a live JVM"
+def run_with_jvm(closure, *args, **kw):
+    "Run the provided callable with a live JVM running in the background"
     if not sh("which mvn", capture=True, ignore_error=True): 
         fail("Maven build tool not installed / available on your path!")
 
@@ -169,17 +166,39 @@ def jvmtests():
         else:
             fail("JVM start failed")
 
+        # Now run the given closure
         try:
-            # Run tests
-            ##jolokia_url = "http://localhost:%(port)s/jolokia/" % jolokia_props; print jolokia_url; time.sleep(1000)
             with pushd(base_dir):
-                sh("nosetests -a jvm") # run all tests!
+                closure(*args, **kw)
         except KeyboardInterrupt:
             fail("Aborted by CTRL-C")
         finally:
             # Stop test JVM
             guard_file.remove()
             time.sleep(1)
+
+
+#
+# Tasks
+#
+@task
+def jvmtests():
+    "Run integration tests against a live JVM"
+    run_with_jvm(sh, "nosetests -a jvm") # run all tests!
+
+
+@task
+def explore():
+    "Run interactive interpreter against a live JVM"
+    init = path(tempfile.mkstemp(".py", "jmx4py-")[1])
+    init.write_lines([
+        "from jmx4py import jolokia",
+        "jp = jolokia.JmxClient(('localhost', 8089))",
+        "print('Use the following object that was created for you to test the API:\\n')",
+        "print('jp = %r\\n' % jp)",
+    ])
+    run_with_jvm(sh, "bpython -i %s" % init)
+    init.remove()
 
 
 @task

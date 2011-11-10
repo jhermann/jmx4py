@@ -32,6 +32,14 @@ A similar procedure should work on Windows, but is not yet tested (reports welco
     cd jmx4py
     python bootstrap.py clean full local
 
+Then you can explore the API by simply issuing the following command:
+
+    paver explore
+    
+For that to suceed, you must also have a working Java + Maven environment, 
+since a small test application is built and then started in the background,
+so you can work against a live JVM.
+
 
 INSTALLATION
 
