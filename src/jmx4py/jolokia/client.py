@@ -177,5 +177,17 @@ class JmxClient(object):
     def version(self):
         """ Request the Jolokia agent's version information.
             See JmxResponse for ways to access the result. 
+
+            >>> import jmx4py.jolokia
+            >>> jp = jmx4py.jolokia.JmxClient(("localhost", 8089))
+            >>> jp
+            JmxClient('http://localhost:8089/jolokia/')
+            >>> jp.version().protocol_info[:1]
+            (6,)
+            >>> jp.version().agent_info[:2]
+            (1, 0)
         """
-        return self._execute(type="version")
+        resp = self._execute(type="version")
+        resp["value"]["protocol_info"] = tuple(int(i) for i in resp.protocol.split('.'))
+        resp["value"]["agent_info"] = tuple(int(i) for i in resp.agent.split('.'))
+        return resp
