@@ -2,7 +2,10 @@
 
     @author: jhe
 """
+import json
 import urllib2
+
+from jmx4py.util import network
 
 
 class JmxConnection(object):
@@ -60,6 +63,12 @@ class JmxConnection(object):
         raise NotImplementedError()
 
 
+    def send(self, data):
+        """ Perform a single request and return the deserialized response.
+        """ 
+        raise NotImplementedError()
+
+
 class JmxHttpConnection(JmxConnection):
     """ JMX Proxy Connection via HTTP.
     """
@@ -77,6 +86,7 @@ class JmxHttpConnection(JmxConnection):
         """
         # Currently, we have no connection pooling, so this is basically a NOP
         self._open = True
+        return self
 
 
     def close(self):
@@ -85,3 +95,23 @@ class JmxHttpConnection(JmxConnection):
         self._open = False
 
 
+    def send(self, data):
+        """ Perform a single request and return the deserialized response.
+        """ 
+        headers = {
+            "User-Agent": "jmx4py 0.1", # TODO: add automatic version detection
+        }
+        req_body = json.dumps(data) # TODO: using data automatically select POST as method 
+        req = urllib2.Request(self.url, data=req_body, headers=headers, unverifiable=True)  
+
+        handle = network.urlopen(req) # TODO: , username, password)
+        try:
+# TODO: wire debugging
+#            if debug:
+#                log.trace("Reponse headers for %r:\n    %s" % (
+#                    url, "\n    ".join(i.strip() for i in handle.info().headers)
+#                ))
+            result = json.loads(handle.read())
+            return result
+        finally:
+            handle.close()        

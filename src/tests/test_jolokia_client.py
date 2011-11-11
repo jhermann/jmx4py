@@ -33,6 +33,15 @@ class JmxClientTest(unittest.TestCase):
 
 
 class JmxClientJvmTest(JvmTestCase):
+
+    def test_repr(self):
+        self.failUnless("localhost" in repr(self.proxy))
+        
     
     def test_version(self):
-        pass
+        version = self.proxy.version()
+
+        self.failUnlessEqual(version["status"], 200)
+        self.failUnless(isinstance(version["timestamp"], int))
+        self.failUnlessEqual(version["request"]["type"], "version")
+        self.failUnless(version.protocol.startswith("6."))
