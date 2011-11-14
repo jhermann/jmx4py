@@ -55,7 +55,7 @@ project = dict(
     zip_safe = True,
     data_files = [
         ("EGG-INFO", [
-            "README", "TODO", "LICENSE", "debian/changelog",
+            "README", "LICENSE", "debian/changelog",
         ]),
     ],
 
