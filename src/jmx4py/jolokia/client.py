@@ -16,9 +16,30 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+import re
 from contextlib import closing
 
 from jmx4py.jolokia.connection import JmxConnection
+
+_QUOTE_RE = re.compile(r"([!/])")
+_UNQUOTE_RE = re.compile(r"!(.)")
+
+
+def quote(path):
+    """ Escape a path according to Jolokia v6 rules.
+    """
+    return _QUOTE_RE.sub(r"!\1", path) if path else path
+
+
+
+def unquote(path):
+    """ Un-escape a path according to Jolokia v6 rules.
+    """
+    if not path:
+        return path
+    if path.endswith('!') and (len(path) - len(path.rstrip('!'))) % 2:
+        raise ValueError("Invalid trailing escape in %r" % path)
+    return _UNQUOTE_RE.sub(r"\1", path)
 
 
 #class JmxRequest(object):

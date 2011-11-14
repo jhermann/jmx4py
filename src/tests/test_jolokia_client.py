@@ -25,6 +25,38 @@ from jmx4py.jolokia.client import * #@UnusedWildImport
 log = logging.getLogger(__name__)
 
 
+class JmxEscapingTest(unittest.TestCase):
+    
+    # Unescaped and escaped test data
+    DATA = (
+        (None, None),
+        ("", ""),
+        ("a", "a"),
+        ("!", "!!"),
+        ("a/b", "a!/b"),
+        ("a/b/c", "a!/b!/c"),
+        ("a!b/c", "a!!b!/c"),
+    )
+    
+    def test_quote(self):
+        for text, quoted in self.DATA:
+            self.assertEqual(quote(text), quoted)
+
+
+    def test_unquote(self):
+        for text, quoted in self.DATA:
+            self.assertEqual(text, unquote(quoted))
+
+
+    def test_unquote_extra(self):
+        self.assertEqual("ab!/z", unquote("!a!b!!!/!z"))
+
+
+    def test_unquote_trail(self):
+        self.failUnlessRaises(ValueError, unquote, "!")
+        self.failUnlessRaises(ValueError, unquote, "!!!")
+
+
 class JmxClientTest(unittest.TestCase):
     
     def test_client_connection(self):
