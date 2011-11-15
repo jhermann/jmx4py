@@ -14,3 +14,9 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+# We do this once here, all other imports reference util.json
+try:
+    import json
+except ImportError:
+    import simplejson
+    json = simplejson # not using "as" because that confuses Eclipse etc. on Python 2.6+
