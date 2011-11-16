@@ -16,10 +16,9 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-import json
 import urllib2
 
-from jmx4py.util import network
+from jmx4py.util import network, json
 
 
 class JmxConnection(object):
