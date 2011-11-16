@@ -82,7 +82,27 @@ class JmxClientJvmTest(JvmTestCase):
 
     def test_repr(self):
         self.failUnless("localhost" in repr(self.proxy))
-        
+
+
+    def test_read(self):
+        resp = self.proxy.read("java.lang:type=Memory")
+        self.failUnless(all(i in resp.value for i in ["HeapMemoryUsage", "NonHeapMemoryUsage"]))
+
+
+    def test_read_with_path(self):
+        resp = self.proxy.read("java.lang:type=Memory", "HeapMemoryUsage", "used")
+        self.failUnless(isinstance(resp.value, int))
+
+
+    def test_multi_read(self):
+        resp = self.proxy.read("java.lang:type=Memory", ["HeapMemoryUsage", "NonHeapMemoryUsage"])
+        self.failUnlessEqual(set(resp.value.keys()), set(["HeapMemoryUsage", "NonHeapMemoryUsage"]))
+
+
+    def test_multi_read_with_path(self):
+        self.failUnlessRaises(JmxResponseError, self.proxy.read,
+            "java.lang:type=Memory", ["HeapMemoryUsage", "NonHeapMemoryUsage"], "used")
+
     
     def test_version(self):
         version = self.proxy.version()

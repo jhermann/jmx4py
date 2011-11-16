@@ -1,4 +1,9 @@
-""" JMX Client Proxy. 
+""" JMX Client Proxy.
+
+    See http://www.jolokia.org/reference/html/protocol.html for a 
+    detailed description of the Jolokia protocol and different ways
+    to query for information. The client API methods only describe
+    the major points, and specifics of the Python interface.
 
     @author: jhe
 """
@@ -17,8 +22,11 @@
 #   limitations under the License.
 
 import re
+import datetime
 from contextlib import closing
 
+from jmx4py.util import json, auxiliary
+from jmx4py.jolokia.errors import JmxResponseError
 from jmx4py.jolokia.connection import JmxConnection
 
 _QUOTE_RE = re.compile(r"([!/])")
@@ -54,6 +62,25 @@ def unquote(path):
 class JmxResponse(dict):
     """ JMX Proxy Response. Wraps responses into a fancy accessor.
     """
+    
+    def __str__(self):
+        """ Return fully nested representation of JMX response (JSON dump).
+        """
+        return json.dumps(self, indent=2)
+
+
+    def __repr__(self):
+        """ Return short representation of JMX response.
+        
+            >>> jp.read("java.lang:type=Memory", "HeapMemoryUsage", path="used")
+            <JmxResponse type=read status=200 timestamp=2011-11-15T17:44:50 value=4573856>
+        """
+        return "<%s type=%s status=%d timestamp=%s value=%s>" % (
+            self.__class__.__name__, self["request"]["type"], self["status"],
+            datetime.datetime.fromtimestamp(self["timestamp"]).isoformat(),
+            auxiliary.digest_repr(self["value"]),
+        )
+
 
     def __getitem__(self, key):
         try:
@@ -108,6 +135,8 @@ class JmxClientConfig(object):
 class JmxClient(object):
     """ JMX Client Proxy.
     """
+    # TODO: Historical values - http://www.jolokia.org/reference/html/protocol.html#history
+    # TODO: Support bulk requests - http://www.jolokia.org/reference/html/protocol.html#post-request
 
     def __init__(self, url, **kw):
         """ Open a proxy connection to a Jolokia agent.
@@ -134,11 +163,13 @@ class JmxClient(object):
         #See JmxRequest for a list of supported keywords.
         #request = JmxRequest(**kw)
         with closing(self.connection.open()) as handle:
-            # TODO: check "status" for errors (!= 200)
-            return JmxResponse(handle.send(kw))
+            resp = JmxResponse(handle.send(kw))
+            if resp.status != 200:
+                raise JmxResponseError(resp.error, resp)
+            return resp
 
 
-    def read(self):
+    def read(self, mbean, attribute=None, path=None, **kw):
         """ TODO: Implement read()
                 J4pReadRequest is a read request to get one or more 
             attributes from one or more MBeans within a single request. 
@@ -151,10 +182,23 @@ class JmxClient(object):
             to multiple values for a multi attribute read. In the latter 
             case, the found object and attributes names can be retrieved as 
             well.
-            
-                To fetch the value of multiple 
-            attributes and multiple MBeans at once, ... TODO
+                        
+            A read request for multiple attributes on the same MBean is initiated
+            by giving a list of attributes to the request. If no attribute is 
+            provided, then all attributes are fetched. The MBean name can be 
+            given as a pattern in which case the attributes are read on all 
+            matching MBeans. If a MBean pattern and multiple attributes are 
+            requestes, then only the value of attributes which matches both 
+            are returned, the others are ignored. Paths cannot be used with 
+            multi value reads, though. 
         """
+        req = dict(type = "read", mbean = mbean)
+        if attribute: req["attribute"] = attribute 
+        if path: req["path"] = quote(path)
+        if kw: req.update(kw)
+        resp = self._execute(**req)
+        return resp
+
         
     def write(self):
         """ TODO: Implement write()
@@ -171,6 +215,9 @@ class JmxClient(object):
             J4pExecRequest and J4pExecResponse
             
         """
+        resp = self._execute(type = "write")
+        return resp
+
         
     def invoke(self):
         """ TODO: Implement invoke()
@@ -186,6 +233,9 @@ class JmxClient(object):
             J4pSearchRequest and J4pSearchResponse
             
         """
+        resp = self._execute(type = "invoke")
+        return resp
+
         
     def search(self):
         """ TODO: Implement search()
@@ -207,6 +257,8 @@ class JmxClient(object):
             J4pVersionRequest
             
         """
+        resp = self._execute(type = "search")
+        return resp
 
         
     def version(self):
@@ -222,7 +274,7 @@ class JmxClient(object):
             >>> jp.version().agent_info[:2]
             (1, 0)
         """
-        resp = self._execute(type="version")
+        resp = self._execute(type = "version")
         resp["value"]["protocol_info"] = tuple(int(i) for i in resp.protocol.split('.'))
         resp["value"]["agent_info"] = tuple(int(i) for i in resp.agent.split('.'))
         return resp
