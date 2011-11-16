@@ -140,14 +140,15 @@ def run():
         for tool in EXTRA_TOOLS:
             _install_dependency(tool, venv_dir)
 
-    # Fix broken nose plugins...
-    # If you want full unittest support on Windows, use cygwin/bash, or apply the patch manually
-    subprocess.call(
-        """sed -ie 's/if self.coverErase/if getattr(self, "coverErase", False)/'"""
-        """ $(find lib/ -path '*/nose/plugins/cover.py')""", shell=True
-    )
-    #sed -ie 's/coverage == 2.85/coverage >= 2.85/' \
-    #$(find lib/ -path '*/site-packages/NoseXUnit*/EGG-INFO/requires.txt')
+    if os.path.isdir("lib"):
+        # Fix broken nose plugins...
+        # If you want full unittest support on Windows, use cygwin/bash, or apply the patch manually
+        subprocess.call(
+            """sed -ie 's/if self.coverErase/if getattr(self, "coverErase", False)/'"""
+            """ $(find lib/ -path '*/nose/plugins/cover.py')""", shell=True
+        )
+        #sed -ie 's/coverage == 2.85/coverage >= 2.85/' \
+        #$(find lib/ -path '*/site-packages/NoseXUnit*/EGG-INFO/requires.txt')
 
     subprocess.call("./bin/paver develop -U", shell=True)
 
