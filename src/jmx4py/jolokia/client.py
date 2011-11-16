@@ -171,19 +171,13 @@ class JmxClient(object):
 
 
     def read(self, mbean, attribute=None, path=None, **kw):
-        """ TODO: Implement read()
-                J4pReadRequest is a read request to get one or more 
-            attributes from one or more MBeans within a single request. 
-            Various constructor variants can be used to specify one or more 
-            attributes along with the ObjectName (which can be a pattern). A 
+        """ A read request gets one or more attributes from one or more 
+            MBeans within a single request. 
+
+            Various call variants can be used to specify one or more 
+            attributes along with the JMX ObjectName (which can be a pattern). A 
             path can be set as property for specifying an inner path, too.
             
-                J4pReadResponse is the corresponding response type and allows 
-            typed acces to the fetched value for a single attribute fetch or 
-            to multiple values for a multi attribute read. In the latter 
-            case, the found object and attributes names can be retrieved as 
-            well.
-                        
             A read request for multiple attributes on the same MBean is initiated
             by giving a list of attributes to the request. If no attribute is 
             provided, then all attributes are fetched. The MBean name can be 
