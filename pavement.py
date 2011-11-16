@@ -205,6 +205,32 @@ def run_with_jvm(closure, *args, **kw):
 # Tasks
 #
 @task
+@needs(["clean"])
+def clean_dist():
+    "Clean up build and dist files."
+    path("dist").rmtree()
+
+
+@task
+@needs(["clean_dist"])
+def clean_all():
+    "Clean up everything."
+    # clean up local eggs (setup requirements)
+    for name in path(".").dirs("*.egg"):
+        path(name).rmtree()
+    for name in path(".").files("*.egg"):
+        path(name).remove()
+
+    # get rid of virtualenv environment
+    bindir = path("bin")
+    if not bindir.islink():
+        for exe in bindir.files():
+            path(exe).remove()
+    for dirname in ("lib", "include", "Scripts"):
+        path(dirname).rmtree()
+
+
+@task
 def jvmtests():
     "Run integration tests against a live JVM"
     run_with_jvm(sh, "nosetests -a jvm") # run all tests!
