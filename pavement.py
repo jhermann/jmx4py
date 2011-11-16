@@ -28,6 +28,7 @@ import os
 import re
 import sys
 import time
+import signal
 import tempfile
 from contextlib import closing
 
@@ -131,6 +132,26 @@ def pylint(opts=""):
         ignore_error=True) # TODO: should check for return code ERROR bits and fail on errors
 
 
+def stop_all_jvms():
+    "Stop all running test JVMs."
+    running_agents = [i.split(None, 1) 
+        for i in sh("jps -m", capture=True, ignore_error=True).splitlines()
+        if "jmx4py-testjvm" in i
+    ]
+    for pid, cmd in running_agents:
+        pid = int(pid, 10)
+        info("Stopping '%s' (PID=%d)" % (cmd, pid))
+        os.kill(pid, signal.SIGTERM)
+        for _ in range(25):
+            time.sleep(0.1)
+            try:
+                os.kill(pid, signal.SIGTERM)
+            except EnvironmentError:
+                break
+        else:
+            info("WARNING: JVM '%s' (PID=%d) could not be stopped" % (cmd, pid))
+
+
 def run_with_jvm(closure, *args, **kw):
     "Run the provided callable with a live JVM running in the background"
     if not sh("which mvn", capture=True, ignore_error=True): 
@@ -152,6 +173,7 @@ def run_with_jvm(closure, *args, **kw):
                 "target/jolokia-jvm-agent.jar")
 
         # Start test JVM in background
+        stop_all_jvms()
         jolokia_props_path = path(base_dir) / "java" / "jolokia.properties"
         jolokia_props = dict((key, val.strip()) for key, val in (
             line.split(':', 1) for line in jolokia_props_path.lines() if ':' in line))
@@ -175,7 +197,8 @@ def run_with_jvm(closure, *args, **kw):
         finally:
             # Stop test JVM
             guard_file.remove()
-            time.sleep(1)
+            time.sleep(.25)
+            stop_all_jvms()
 
 
 #
