@@ -19,3 +19,9 @@
 class JmxException(Exception):
     """ JMX exception base class.
     """
+
+
+class JmxResponseError(JmxException):
+    """ Request result with error indicator.
+    """
+    # TODO: add arguments for original raw response, error code, etc. 
