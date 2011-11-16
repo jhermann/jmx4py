@@ -18,5 +18,6 @@
 try:
     import json
 except ImportError:
-    import simplejson
-    json = simplejson # not using "as" because that confuses Eclipse etc. on Python 2.6+
+    # Not using "as" here because that confuses Eclipse etc. on Python 2.6+
+    import simplejson # pylint: disable=F0401
+    json = simplejson # pylint: disable=C0103 

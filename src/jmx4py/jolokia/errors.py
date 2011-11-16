@@ -22,19 +22,20 @@ class JmxException(Exception):
 
 
 class JmxResponseError(JmxException):
-    """ Request result with error indicator.
+    """ Indicates request results containing an error status.
     """
 
     def __init__(self, response, request=None):
         """ Extract major fields from an error response and map it to
             common Python conventions.
         """
-        # "code" and "reason" is more common in Python (httplib)
+        super(JmxResponseError, self).__init__(response, request)
+
+        # "code" and "reason" are more common in Python (httplib)
         self.code = self.status = response.get("status", -1)
         self.reason = self.error = response.get("error", "<unknown JMX error>")
         self.request = request or {}
         self.response = response
-        self.args = (self.error, self.status, self.response)
 
 
     def __str__(self):

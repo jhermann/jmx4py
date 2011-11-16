@@ -1,3 +1,4 @@
+# pylint: disable=C0321
 """ JMX Client Proxy.
 
     See http://www.jolokia.org/reference/html/protocol.html for a 
