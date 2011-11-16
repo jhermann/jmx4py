@@ -160,12 +160,12 @@ class JmxClient(object):
             MAX_OBJECTS     Maximum number of objects returned in the response's value.
             IGNORE_ERRORS     Option for ignoring errors during JMX operations and JSON serialization. This works only for certain operations like pattern reads and should be either true or false. 
         """
-        #See JmxRequest for a list of supported keywords.
-        #request = JmxRequest(**kw)
+        req = kw # pass on unchanged keyword params, for now
+
         with closing(self.connection.open()) as handle:
-            resp = JmxResponse(handle.send(kw))
+            resp = JmxResponse(handle.send(req))
             if resp.status != 200:
-                raise JmxResponseError(resp.error, resp)
+                raise JmxResponseError(resp, req)
             return resp
 
 
