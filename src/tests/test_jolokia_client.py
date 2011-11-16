@@ -78,11 +78,20 @@ class JmxClientTest(unittest.TestCase):
         self.failUnlessRaises(urllib2.URLError, JmxClient, ("localhost", "x"))
 
 
-class JmxClientJvmTest(JvmTestCase):
+class JmxClientBasicsTest(JvmTestCase):
 
     def test_repr(self):
         self.failUnless("localhost" in repr(self.proxy))
 
+
+    def test_bad_type(self):
+        self.failUnlessRaises(JmxResponseError, self.proxy._execute, type="foo bar baz")
+
+        self.failUnlessEqual(self.proxy.connection.calls, 1)
+        self.failUnlessEqual(self.proxy.connection.errors, 1)
+
+
+class JmxClientReadTest(JvmTestCase):
 
     def test_read(self):
         resp = self.proxy.read("java.lang:type=Memory")
@@ -103,9 +112,33 @@ class JmxClientJvmTest(JvmTestCase):
         self.failUnlessRaises(JmxResponseError, self.proxy.read,
             "java.lang:type=Memory", ["HeapMemoryUsage", "NonHeapMemoryUsage"], "used")
 
+
+class JmxClientWriteTest(JvmTestCase):
+
+    def test_write(self):
+        pass
+        #TODO: resp = self.proxy.write("java.lang:type=...", ...)
+
+
+class JmxClientInvokeTest(JvmTestCase):
+
+    def test_invoke(self):
+        pass # TODO: write test
+
+
+class JmxClientSearchTest(JvmTestCase):
+
+    def test_search(self):
+        pass # TODO: write test
+
+
+class JmxClientVersionTest(JvmTestCase):
     
     def test_version(self):
         version = self.proxy.version()
+
+        self.failUnlessEqual(self.proxy.connection.calls, 1)
+        self.failUnlessEqual(self.proxy.connection.errors, 0)
 
         self.failUnlessEqual(version["status"], 200)
         self.failUnless(isinstance(version["timestamp"], int))
