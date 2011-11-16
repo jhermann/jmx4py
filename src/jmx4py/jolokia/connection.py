@@ -62,6 +62,8 @@ class JmxConnection(object):
         """ Create a proxy connection.
         """
         self.url = url
+        self.calls = 0
+        self.errors = 0
 
 
     def open(self):
@@ -76,11 +78,27 @@ class JmxConnection(object):
         raise NotImplementedError()
 
 
-    def send(self, data):
-        """ Perform a single request and return the deserialized response.
-        """ 
+    def _do_send(self, data):
+        """ Template method performing the connection-specific data transfer.
+        """
         raise NotImplementedError()
 
+
+    def send(self, data):
+        """ Perform a single request and return the deserialized response.
+        """
+        self.calls += 1
+        try:
+            # TODO: Add latency statistics?
+            resp = self._do_send(data)
+        except:
+            self.errors += 1
+            raise
+        else:
+            if resp.get("status") != 200:
+                self.errors += 1
+            return resp
+            
 
 class JmxHttpConnection(JmxConnection):
     """ JMX Proxy Connection via HTTP.
@@ -108,7 +126,7 @@ class JmxHttpConnection(JmxConnection):
         self._open = False
 
 
-    def send(self, data):
+    def _do_send(self, data):
         """ Perform a single request and return the deserialized response.
         """ 
         headers = {

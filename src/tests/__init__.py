@@ -39,6 +39,11 @@ class JmxMockedConnection(connection.JmxConnection):
         """ Close the connection and release associated resources.
         """
 
+
+    def _do_send(self, data):
+        """ Perform a single request and return the deserialized response.
+        """ 
+
 connection.JmxConnection.register("mock", JmxMockedConnection)
 
 
