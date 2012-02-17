@@ -251,6 +251,12 @@ def explore():
 
 
 @task
+@needs('generate_setup', 'minilib', 'distutils.command.sdist')
+def sdist():
+    "Package a source distribution"
+
+
+@task
 def docs():
     "Build documentation"
     call_task("paver.doctools.html")
