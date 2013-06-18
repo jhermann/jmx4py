@@ -55,7 +55,7 @@ TOOLS = [ # what you need pretty much always
 EXTRA_TOOLS = [ # only needed in integration builds and for releasing
     "Sphinx",
     "pylint",
-    "bpython",
+    #"bpython",
 ]
 
 
