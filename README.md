@@ -1,6 +1,8 @@
 jmx4py - A Python Client for the Jolokia JMX Agent
 ==================================================
 
+## Overview
+
 Jolokia is a JMX-HTTP bridge giving an alternative to JSR-160 connectors. 
 It is an agent based approach with support for many platforms. In addition 
 to basic JMX operations it enhances JMX remoting with unique features like 
@@ -12,7 +14,7 @@ API and offer further features related to monitoring and controlling JVMs
 via JMX using Python.
 
 
-## SETUP
+## Setup
 
 To create a working directory, follow these steps on a POSIX system:
 
@@ -41,19 +43,19 @@ since a small test application is built and then started in the background,
 so you can work against a live JVM.
 
 
-## INSTALLATION
+## Installation
 
 TODO: setup.py install / pip install / virtualenv install
 
 
-## USAGE
+## Usage
 
 jmx4py offers the following command line tools... TODO
 
 For using jmx4py from Python, consult the API documentation available at TODO
 
 
-## KNOWN LIMITATIONS AND ISSUES
+## Known Limitations and Issues
 
   - The API is subject to change for 0.x, until enough practical experience is gained
   - Only Jolokia 1.0 and up (Protocol v6) is supported
@@ -62,10 +64,10 @@ For using jmx4py from Python, consult the API documentation available at TODO
   - Python 2.6 is used for development and continuous integration, Python 2.7 should work, Python 2.5 MIGHT work
 
 
-## REFERENCES
-  - Jolokia - http://www.jolokia.org/
-  - jmx4py @ PyPI - http://pypi.python.org/pypi/jmx4py/
-  - jmx4py @ freshmeat - http://freshmeat.net/projects/jmx4py
-  - jmx4py @ ohloh - https://www.ohloh.net/p/jmx4py
-  - Paver - http://paver.github.com/paver/
+## References
+  - [Jolokia](http://www.jolokia.org/)
+  - [jmx4py @ PyPI](http://pypi.python.org/pypi/jmx4py/)
+  - [jmx4py @ freshmeat](http://freshmeat.net/projects/jmx4py)
+  - [jmx4py @ ohloh](https://www.ohloh.net/p/jmx4py)
+  - [Paver](http://paver.github.com/paver/)
 
