@@ -12,7 +12,7 @@ API and offer further features related to monitoring and controlling JVMs
 via JMX using Python.
 
 
-SETUP
+## SETUP
 
 To create a working directory, follow these steps on a POSIX system:
 
@@ -41,19 +41,19 @@ since a small test application is built and then started in the background,
 so you can work against a live JVM.
 
 
-INSTALLATION
+## INSTALLATION
 
 TODO: setup.py install / pip install / virtualenv install
 
 
-USAGE
+## USAGE
 
 jmx4py offers the following command line tools... TODO
 
 For using jmx4py from Python, consult the API documentation available at TODO
 
 
-KNOWN LIMITATIONS AND ISSUES
+## KNOWN LIMITATIONS AND ISSUES
 
   - The API is subject to change for 0.x, until enough practical experience is gained
   - Only Jolokia 1.0 and up (Protocol v6) is supported
@@ -62,10 +62,10 @@ KNOWN LIMITATIONS AND ISSUES
   - Python 2.6 is used for development and continuous integration, Python 2.7 should work, Python 2.5 MIGHT work
 
 
-REFERENCES
-    Jolokia - http://www.jolokia.org/
-    jmx4py @ PyPI - http://pypi.python.org/pypi/jmx4py/
-    jmx4py @ freshmeat - http://freshmeat.net/projects/jmx4py
-    jmx4py @ ohloh - https://www.ohloh.net/p/jmx4py
-    Paver - http://paver.github.com/paver/
+## REFERENCES
+  - Jolokia - http://www.jolokia.org/
+  - jmx4py @ PyPI - http://pypi.python.org/pypi/jmx4py/
+  - jmx4py @ freshmeat - http://freshmeat.net/projects/jmx4py
+  - jmx4py @ ohloh - https://www.ohloh.net/p/jmx4py
+  - Paver - http://paver.github.com/paver/
 
