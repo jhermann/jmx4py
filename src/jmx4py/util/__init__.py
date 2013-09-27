@@ -20,4 +20,4 @@ try:
 except ImportError:
     # Not using "as" here because that confuses Eclipse etc. on Python 2.6+
     import simplejson # pylint: disable=F0401
-    json = simplejson # pylint: disable=C0103 
+    json = simplejson # pylint: disable=C0103

@@ -1,4 +1,4 @@
-""" JMX Connections. 
+""" JMX Connections.
 
     @author: jhe
 """
@@ -43,18 +43,18 @@ class JmxConnection(object):
         try:
             # Support the common socket pair for HTTP connections to the default context
             host, port = url
-            
+
             try:
                 port = int(port)
             except (TypeError, ValueError), exc:
-                raise urllib2.URLError("Bad port in (host, port) pair %r (%s)" % (url, exc)) 
-            
-            return JmxHttpConnection("http://%s:%d/jolokia/" % (host, port)) 
-        except (TypeError, ValueError): 
+                raise urllib2.URLError("Bad port in (host, port) pair %r (%s)" % (url, exc))
+
+            return JmxHttpConnection("http://%s:%d/jolokia/" % (host, port))
+        except (TypeError, ValueError):
             url_scheme = url.split(':', 1)[0].lower()
             if url_scheme not in cls.registry:
-                raise urllib2.URLError("Unsupported URl scheme '%s' in '%s'" % (url_scheme, url)) 
-                
+                raise urllib2.URLError("Unsupported URl scheme '%s' in '%s'" % (url_scheme, url))
+
             return cls.registry[url_scheme](url)
 
 
@@ -98,7 +98,7 @@ class JmxConnection(object):
             if resp.get("status") != 200:
                 self.errors += 1
             return resp
-            
+
 
 class JmxHttpConnection(JmxConnection):
     """ JMX Proxy Connection via HTTP.
@@ -128,12 +128,12 @@ class JmxHttpConnection(JmxConnection):
 
     def _do_send(self, data):
         """ Perform a single request and return the deserialized response.
-        """ 
+        """
         headers = {
             "User-Agent": "jmx4py 0.1", # TODO: add automatic version detection
         }
-        req_body = json.dumps(data) # TODO: using data automatically select POST as method 
-        req = urllib2.Request(self.url, data=req_body, headers=headers, unverifiable=True)  
+        req_body = json.dumps(data) # TODO: using data automatically select POST as method
+        req = urllib2.Request(self.url, data=req_body, headers=headers, unverifiable=True)
 
         handle = network.urlopen(req) # TODO: , username, password)
         try:
@@ -145,4 +145,4 @@ class JmxHttpConnection(JmxConnection):
             result = json.loads(handle.read())
             return result
         finally:
-            handle.close()        
+            handle.close()

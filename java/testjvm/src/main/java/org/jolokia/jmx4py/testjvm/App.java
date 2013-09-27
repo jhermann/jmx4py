@@ -31,13 +31,13 @@ import java.lang.management.ManagementFactory;
  */
 public class App {
     private static String jvm_id = "N/A";
-    
+
     public static void main(String[] args) {
         if (args.length == 0) {
             fail("Provide the path to a guard file!");
         }
         jvm_id = ManagementFactory.getRuntimeMXBean().getName();
-        
+
         File guard = new File(args[0]);
         createGuard(guard);
         guard.deleteOnExit();
@@ -50,11 +50,11 @@ public class App {
                 Thread.currentThread().interrupt();
             }
         }
-        
+
         System.out.println("Guard file gone, test JVM " + jvm_id + " exiting...");
     }
 
-    
+
     /**
      * @param guard
      */
@@ -82,7 +82,7 @@ public class App {
         }
     }
 
-    
+
     /**
      * @param msg
      */

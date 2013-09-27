@@ -42,7 +42,7 @@ class JmxMockedConnection(connection.JmxConnection):
 
     def _do_send(self, data):
         """ Perform a single request and return the deserialized response.
-        """ 
+        """
 
 connection.JmxConnection.register("mock", JmxMockedConnection)
 
@@ -50,7 +50,7 @@ connection.JmxConnection.register("mock", JmxMockedConnection)
 @attr("jvm")
 class JvmTestCase(unittest.TestCase):
     """ Test base class that provides an already prepared client.
-    """ 
-    
+    """
+
     def setUp(self):
-        self.proxy = client.JmxClient(("localhost", 8089))  
+        self.proxy = client.JmxClient(("localhost", 8089))

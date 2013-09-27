@@ -1,4 +1,4 @@
-""" Networking. 
+""" Networking.
 
     @author: jhe
 """
@@ -21,30 +21,30 @@ import urlparse
 
 
 class RetryLimitingHTTPPasswordMgrWithDefaultRealm(urllib2.HTTPPasswordMgrWithDefaultRealm):
-    """ Fixes http://bugs.python.org/issue8797 for certain Python versions provided by Linux packaging 
+    """ Fixes http://bugs.python.org/issue8797 for certain Python versions provided by Linux packaging
         and still running in the wild.
     """
     retries = 0
 
     def find_user_password(self, realm, authuri):
         """ Limit number of queries per request.
-        
+
             Note that retries needs to be reset in the calling code.
         """
         # allow sending the username:password 5 times before failing!
-        if self.retries > 5:  
+        if self.retries > 5:
             from httplib import HTTPMessage
             from StringIO import StringIO
-            raise urllib2.HTTPError(authuri, 401, "basic auth failed for realm %r" % realm, 
+            raise urllib2.HTTPError(authuri, 401, "basic auth failed for realm %r" % realm,
                 HTTPMessage(StringIO("")), None)
 
-        self.retries += 1  
+        self.retries += 1
         return urllib2.HTTPPasswordMgrWithDefaultRealm.find_user_password(self, realm, authuri)
 
 
 def split_url_credentials(url):
     """ Split username and password from an URL and return tuple
-        (plain_url, username, password). 
+        (plain_url, username, password).
     """
     scheme, netloc, path, query, fragment = urlparse.urlsplit(url)
     username, password = None, None

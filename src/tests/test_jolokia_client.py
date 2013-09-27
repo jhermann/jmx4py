@@ -26,7 +26,7 @@ log = logging.getLogger(__name__)
 
 
 class JmxEscapingTest(unittest.TestCase):
-    
+
     # Unescaped and escaped test data
     DATA = (
         (None, None),
@@ -37,7 +37,7 @@ class JmxEscapingTest(unittest.TestCase):
         ("a/b/c", "a!/b!/c"),
         ("a!b/c", "a!!b!/c"),
     )
-    
+
     def test_quote(self):
         for text, quoted in self.DATA:
             self.assertEqual(quote(text), quoted)
@@ -58,7 +58,7 @@ class JmxEscapingTest(unittest.TestCase):
 
 
 class JmxClientTest(unittest.TestCase):
-    
+
     def test_client_connection(self):
         proxy = JmxClient("mock:")
         self.failUnless(isinstance(proxy.connection, JmxMockedConnection))
@@ -133,7 +133,7 @@ class JmxClientSearchTest(JvmTestCase):
 
 
 class JmxClientVersionTest(JvmTestCase):
-    
+
     def test_version(self):
         version = self.proxy.version()
 

@@ -1,4 +1,4 @@
-""" Generic helper functions. 
+""" Generic helper functions.
 
     @author: jhe
 """
@@ -17,8 +17,8 @@
 #   limitations under the License.
 
 def digest_repr(obj):
-    """ Return a short digest of a possibly deeply nested (JSON) object. 
-    """ 
+    """ Return a short digest of a possibly deeply nested (JSON) object.
+    """
     if isinstance(obj, (tuple, list, set, dict)):
         def nesting(collection):
             "Helper"
@@ -32,7 +32,7 @@ def digest_repr(obj):
         depth = nesting(obj)
         contents = list(obj)
         if len(contents) > 10:
-            contents[3:-2] = "..." 
+            contents[3:-2] = "..."
         return "<%s of maxdepth %d and len %d holding %s>" % (
             type(obj).__name__, depth, len(obj), ', '.join(repr(i) for i in contents))
     else:

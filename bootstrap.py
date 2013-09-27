@@ -62,7 +62,7 @@ EXTRA_TOOLS = [ # only needed in integration builds and for releasing
 def _get_real_python():
     "Get path to the machine's python executable."
     is_venv = False
-    
+
     # Get executable path
     python_exe = sys.executable
     python_version = '.'.join(str(i) for i in sys.version_info[:2])
@@ -103,7 +103,7 @@ def _install_dependency(dependency, venv_dir):
     if dependency.startswith('?'):
         dependency = dependency[1:]
         call = subprocess.call
-    
+
     call([installer] + INSTALL_ARGS + [dependency])
 
 
@@ -155,4 +155,3 @@ def run():
 
 if __name__ == "__main__":
     run()
-

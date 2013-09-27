@@ -9,4 +9,3 @@ include paver-minilib.zip
 include LICENSE
 
 recursive-include debian changelog
-

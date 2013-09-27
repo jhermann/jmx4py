@@ -1,11 +1,11 @@
 """ jmx4py - A Python Client for the Jolokia JMX Agent.
 
-    Jolokia is a JMX-HTTP bridge giving an alternative to JSR-160 connectors. 
-    It is an agent based approach with support for many platforms. In addition 
-    to basic JMX operations it enhances JMX remoting with unique features like 
-    bulk requests or fine grained security policies. 
+    Jolokia is a JMX-HTTP bridge giving an alternative to JSR-160 connectors.
+    It is an agent based approach with support for many platforms. In addition
+    to basic JMX operations it enhances JMX remoting with unique features like
+    bulk requests or fine grained security policies.
 
-    jmx4py offers a client API similar to the existing Jolokia clients for Perl 
+    jmx4py offers a client API similar to the existing Jolokia clients for Perl
     (jmx4perl), Java and Javascript. Additionally, it'll build upon the basic
     API and offer further features related to monitoring and controlling JVMs
     via JMX using Python.
@@ -94,7 +94,7 @@ project = dict(
         #"Topic :: System :: Clustering",
         #"Topic :: System :: Distributed Computing",
         #"Topic :: Utilities",
-    ], 
+    ],
 )
 
 options(
@@ -134,7 +134,7 @@ def pylint(opts=""):
 
 def stop_all_jvms():
     "Stop all running test JVMs."
-    running_agents = [i.split(None, 1) 
+    running_agents = [i.split(None, 1)
         for i in sh("jps -m", capture=True, ignore_error=True).splitlines()
         if "jmx4py-testjvm" in i
     ]
@@ -154,7 +154,7 @@ def stop_all_jvms():
 
 def run_with_jvm(closure, *args, **kw):
     "Run the provided callable with a live JVM running in the background"
-    if not sh("which mvn", capture=True, ignore_error=True): 
+    if not sh("which mvn", capture=True, ignore_error=True):
         fail("Maven build tool not installed / available on your path!")
 
     with pushd("java/testjvm") as base_dir:
@@ -284,4 +284,3 @@ def integration():
     call_task("docs")
     call_task("sdist")
     call_task("bdist_egg")
-

@@ -1,4 +1,4 @@
-""" JMX Exceptions. 
+""" JMX Exceptions.
 
     @author: jhe
 """
