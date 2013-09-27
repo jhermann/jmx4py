@@ -1,5 +1,4 @@
-jmx4py - A Python Client for the Jolokia JMX Agent
-==================================================
+# ![Logo](https://raw.github.com/jhermann/jmx4py/master/docs/_static/jmx4py-logo-48.png) jmx4py — A Python Client for the Jolokia JMX Agent
 
 ## Overview
 
