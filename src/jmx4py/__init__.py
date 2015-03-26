@@ -4,6 +4,17 @@
 """
     JMX for Python – A Python Client for the Jolokia JMX Agent.
 
+    Jolokia is a JMX-HTTP bridge giving an alternative to JSR-160 connectors.
+    It is an agent based approach with support for many platforms. In addition
+    to basic JMX operations it enhances JMX remoting with unique features like
+    bulk requests or fine grained security policies.
+
+    jmx4py offers a client API similar to the existing Jolokia clients for Perl
+    (jmx4perl), Java and Javascript. Additionally, it'll build upon the basic
+    API and offer further features related to monitoring and controlling JVMs
+    via JMX using Python.
+
+
     Copyright ©  2011 Jürgen Hermann <jh@web.de>
 
     Licensed under the Apache License, Version 2.0 (the "License");
