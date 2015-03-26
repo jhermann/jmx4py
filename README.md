@@ -79,8 +79,7 @@ For using jmx4py from Python, consult the API documentation available at **TODO*
 **Project**
 
 * [jmx4py @ PyPI](http://pypi.python.org/pypi/jmx4py/)
-* [jmx4py @ freshmeat](http://freshmeat.net/projects/jmx4py)
-* [jmx4py @ ohloh](https://www.ohloh.net/p/jmx4py)
+* [jmx4py @ Open HUB](https://www.openhub.net/p/jmx4py)
 * [Jolokia](http://www.jolokia.org/)
 
 **Tools**
