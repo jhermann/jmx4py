@@ -1,4 +1,17 @@
-# ![Logo](https://raw.github.com/jhermann/jmx4py/master/docs/_static/jmx4py-logo-48.png) jmx4py — A Python Client for the Jolokia JMX Agent
+# jmx4py
+
+![Logo](https://raw.github.com/jhermann/jmx4py/master/docs/_static/jmx4py-logo-64.png)
+
+A Python Client for the Jolokia JMX Agent
+
+ [![Travis CI](https://api.travis-ci.org/jhermann/jmx4py.svg)](https://travis-ci.org/jhermann/jmx4py)
+ [![GitHub Issues](https://img.shields.io/github/issues/jhermann/jmx4py.svg)](https://github.com/jhermann/jmx4py/issues)
+ [![License](https://img.shields.io/pypi/l/jmx4py.svg)](https://github.com/jhermann/jmx4py/blob/master/LICENSE)
+ [![Development Status](https://pypip.in/status/jmx4py/badge.svg)](https://pypi.python.org/pypi/jmx4py/)
+ [![Latest Version](https://img.shields.io/pypi/v/jmx4py.svg)](https://pypi.python.org/pypi/jmx4py/)
+ [![Download format](https://pypip.in/format/jmx4py/badge.svg)](https://pypi.python.org/pypi/jmx4py/)
+ [![Downloads](https://img.shields.io/pypi/dw/jmx4py.svg)](https://pypi.python.org/pypi/jmx4py/)
+
 
 ## Overview
 
@@ -15,57 +28,79 @@ via JMX using Python.
 
 ## Setup
 
-To create a working directory, follow these steps on a POSIX system:
+To create a working directory for this project,
+follow these steps on a POSIX system:
 
-    git clone git://github.com/jhermann/jmx4py.git
-    cd jmx4py
-    ./bootstrap.py clean full local
-    . ./bin/activate
+```sh
+git clone "https://github.com/jhermann/jmx4py.git"
+cd "jmx4py"
+. .env --yes --develop
+invoke build --docs test check
+```
 
 Note that an already activated Python virtualenv is used for the project,
 otherwise a new one is created locally. In either case necessary tools are
-then installed into the chosen virtualenv. See the bootstrap script for
+then installed into the chosen virtualenv. See the ``.env`` script for
 details.
-
-A similar procedure should work on Windows, but is not yet tested (reports welcome):
-
-    git clone git://github.com/jhermann/jmx4py.git
-    cd jmx4py
-    python bootstrap.py clean full local
 
 Then you can explore the API by simply issuing the following command:
 
-    paver explore
+    invoke explore
 
 For that to suceed, you must also have a working Java + Maven environment,
 since a small test application is built and then started in the background,
 so you can work against a live JVM.
 
+See [CONTRIBUTING](https://github.com/jhermann/jmx4py/blob/master/CONTRIBUTING.md) for more.
+
 
 ## Installation
 
-TODO: setup.py install / pip install / virtualenv install
+**TODO**: pip install / dh-virtualenv
 
 
 ## Usage
 
-jmx4py offers the following command line tools... TODO
+jmx4py offers the following command line tools... **TODO**
 
-For using jmx4py from Python, consult the API documentation available at TODO
+For using jmx4py from Python, consult the API documentation available at **TODO**
 
 
-## Known Limitations and Issues
+## Known Limitations & Issues
 
-  - The API is subject to change for 0.x, until enough practical experience is gained
-  - Only Jolokia 1.0 and up (Protocol v6) is supported
-  - GET requests aren't supported
-  - Bulk requests aren't supported
-  - Python 2.6 is used for development and continuous integration, Python 2.7 should work, Python 2.5 MIGHT work
+* The API is subject to change for 0.x, until enough practical experience is gained.
+* Only Jolokia 1.0 and up (Protocol v6) is supported.
+* GET requests aren't supported.
+* Bulk requests aren't supported.
+* Python 2.7 is used for development, and 2.7 and 3.4 are tested in continuous integration.
 
 
 ## References
-  - [Jolokia](http://www.jolokia.org/)
-  - [jmx4py @ PyPI](http://pypi.python.org/pypi/jmx4py/)
-  - [jmx4py @ freshmeat](http://freshmeat.net/projects/jmx4py)
-  - [jmx4py @ ohloh](https://www.ohloh.net/p/jmx4py)
-  - [Paver](http://paver.github.com/paver/)
+
+**Project**
+
+* [jmx4py @ PyPI](http://pypi.python.org/pypi/jmx4py/)
+* [jmx4py @ freshmeat](http://freshmeat.net/projects/jmx4py)
+* [jmx4py @ ohloh](https://www.ohloh.net/p/jmx4py)
+* [Jolokia](http://www.jolokia.org/)
+
+**Tools**
+
+* [Cookiecutter](http://cookiecutter.readthedocs.org/en/latest/)
+* [PyInvoke](http://www.pyinvoke.org/)
+* [pytest](http://pytest.org/latest/contents.html)
+* [tox](https://tox.readthedocs.org/en/latest/)
+* [Pylint](http://docs.pylint.org/)
+* [twine](https://github.com/pypa/twine#twine)
+* [bpython](http://docs.bpython-interpreter.org/)
+* [yolk3k](https://github.com/myint/yolk#yolk)
+
+**Packages**
+
+* [Rituals](https://jhermann.github.io/rituals)
+* [Click](http://click.pocoo.org/)
+
+
+## Acknowledgements
+
+…

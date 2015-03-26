@@ -1,26 +1,24 @@
 #
 # Travis Project Descriptor
 #
-# See http://about.travis-ci.org/docs/user/build-configuration/
+# See http://docs.travis-ci.com/user/build-configuration/
 #
 
 # build matrix
 language: python
 python:
     - "2.7"
-#    - "2.6"
-#    - "2.5"
-#    - "3.3"
+    - "3.4"
 #    - "pypy"
 #matrix:
+#    # Do not allow failures for Python 3 when you create "universal" wheels (see 'setup.cfg')
 #    allow_failures:
-#        - python: "3.3"
-#        - python: "pypy"
+#        - python: "3.4"
 
 # command to install dependencies
 install:
-    - "pip install -r requirements.txt --use-mirrors"
+    - "pip install -r dev-requirements.txt"
+    - "python setup.py develop -U"
 
 # command to run tests
-script: paver integration
-
+script: invoke ci

@@ -1,0 +1,16 @@
+{
+    "email": "jh@web.de",
+    "features": "travis flake8 cli",
+    "full_name": "J\u00fcrgen Hermann",
+    "github_url": "https://github.com/jhermann/jmx4py",
+    "github_username": "jhermann",
+    "keywords": "hosted.by.github python java jmx jolokia http rest json",
+    "license": "Apache 2.0",
+    "pkg_name": "jmx4py",
+    "project_name": "Python Client for the Jolokia JMX Agent",
+    "repo_name": "jmx4py",
+    "short_description": "A Python Client for the Jolokia JMX Agent",
+    "url": "https://github.com/jhermann/jmx4py",
+    "version": "0.1.0",
+    "year": "2011"
+}

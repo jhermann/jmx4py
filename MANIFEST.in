@@ -1,11 +1,8 @@
-# Additional files in the source distribution
 #
-# See http://docs.python.org/distutils/sourcedist.html
+# Source Distribution Manifest
+#
+# More at https://docs.python.org/2/distutils/sourcedist.html
 
-include bootstrap.py
-include setup.py
-include pavement.py
-include paver-minilib.zip
-include LICENSE
-
+include README.md LICENSE requirements.txt *-requirements.txt
+recursive-include project.d *.py *.md *.txt *.cfg
 recursive-include debian changelog
