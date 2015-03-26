@@ -38,16 +38,15 @@ cd "jmx4py"
 invoke build --docs test check
 ```
 
-Note that an already activated Python virtualenv is used for the project,
-otherwise a new one is created locally. In either case necessary tools are
-then installed into the chosen virtualenv. See the ``.env`` script for
-details.
+The ``.env`` script creates a virtualenv and
+installs the necessary tools into it.
+See the script for details.
 
-Then you can explore the API by simply issuing the following command:
+Now you can explore the API by simply issuing the following command:
 
     invoke explore
 
-For that to suceed, you must also have a working Java + Maven environment,
+For that to succeed, you must also have a working Java + Maven environment,
 since a small test application is built and then started in the background,
 so you can work against a live JVM.
 
