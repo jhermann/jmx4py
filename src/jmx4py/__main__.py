@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 # pylint: disable=bad-continuation
 """ Command line interface.
@@ -51,4 +50,3 @@ def help_command():
 if __name__ == "__main__":  # imported via "python -m"?
     __package__ = 'jmx4py'  # pylint: disable=redefined-builtin
     cli()  # pylint: disable=no-value-for-parameter
-

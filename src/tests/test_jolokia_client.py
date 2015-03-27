@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+# pylint: disable=missing-docstring, wildcard-import, unused-wildcard-import
+# pylint: disable=too-few-public-methods, bad-continuation
 """ Jolokia client proxy tests.
 """
 #   Copyright 2011 Juergen Hermann
@@ -13,12 +16,13 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
+from __future__ import absolute_import, unicode_literals, print_function
 
 import logging
 import unittest
 import urllib2
 
-from tests import JmxMockedConnection, JvmTestCase
+from conftest import JmxMockedConnection, JvmTestCase
 from jmx4py.jolokia.connection import JmxHttpConnection
 from jmx4py.jolokia.client import * #@UnusedWildImport
 

@@ -1,12 +1,11 @@
-# pylint: disable=C0321
+# -*- coding: utf-8 -*-
+# pylint: disable=bad-whitespace, too-few-public-methods
 """ JMX Client Proxy.
 
     See http://www.jolokia.org/reference/html/protocol.html for a
     detailed description of the Jolokia protocol and different ways
     to query for information. The client API methods only describe
     the major points, and specifics of the Python interface.
-
-    @author: jhe
 """
 #   Copyright 2011 Juergen Hermann
 #
@@ -21,6 +20,7 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
+from __future__ import absolute_import, unicode_literals, print_function
 
 import re
 import datetime
@@ -120,7 +120,13 @@ class JmxClientConfig(object):
         TODO: more parameters?
         timeout     The timeout in seconds for network operations.
         contentCharset     Defines the charset to be used per default for encoding content body.     ISO-8859-1
-        expectContinue     Activates Expect: 100-Continue handshake for the entity enclosing methods. The purpose of the Expect: 100-Continue handshake to allow a client that is sending a request message with a request body to determine if the origin server is willing to accept the request (based on the request headers) before the client sends the request body. The use of the Expect: 100-continue handshake can result in noticable peformance improvement for entity enclosing requests that require the target server's authentication.     true
+        expectContinue     Activates Expect: 100-Continue handshake for the entity enclosing methods.
+            The purpose of the Expect: 100-Continue handshake to allow a client that is sending
+            a request message with a request body to determine if the origin server is willing
+            to accept the request (based on the request headers) before the client sends the
+            request body. The use of the Expect: 100-continue handshake can result in noticable
+            peformance improvement for entity enclosing requests that require the target server's
+            authentication.     true
     """
 
     def __init__(self, url, **kw):
@@ -156,10 +162,13 @@ class JmxClient(object):
         """ Execute a request as defined by the given keyword arguments.
 
             TODO: Do we need this?
-            MAX_DEPTH     Maximum traversal depth for serialization of complex objects. Use this with a "list" request to restrict the depth of the returned meta data tree.
-            MAX_COLLECTION_SIZE     Maximum size of collections returned during serialization. If larger, a collection is truncated to this size.
+            MAX_DEPTH     Maximum traversal depth for serialization of complex objects.
+                Use this with a "list" request to restrict the depth of the returned meta data tree.
+            MAX_COLLECTION_SIZE     Maximum size of collections returned during serialization.
+                If larger, a collection is truncated to this size.
             MAX_OBJECTS     Maximum number of objects returned in the response's value.
-            IGNORE_ERRORS     Option for ignoring errors during JMX operations and JSON serialization. This works only for certain operations like pattern reads and should be either true or false.
+            IGNORE_ERRORS     Option for ignoring errors during JMX operations and JSON serialization.
+                This works only for certain operations like pattern reads and should be either true or false.
         """
         req = kw # pass on unchanged keyword params, for now
 
@@ -188,9 +197,12 @@ class JmxClient(object):
             multi value reads, though.
         """
         req = dict(type = "read", mbean = mbean)
-        if attribute: req["attribute"] = attribute
-        if path: req["path"] = quote(path)
-        if kw: req.update(kw)
+        if attribute:
+            req["attribute"] = attribute
+        if path:
+            req["path"] = quote(path)
+        if kw:
+            req.update(kw)
         resp = self._execute(**req)
         return resp
 

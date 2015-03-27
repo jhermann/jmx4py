@@ -1,6 +1,6 @@
+# -*- coding: utf-8 -*-
+# pylint: disable=bad-continuation
 """ Networking.
-
-    @author: jhe
 """
 #   Copyright 2011 Juergen Hermann
 #
@@ -15,12 +15,14 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
+from __future__ import absolute_import, unicode_literals, print_function
 
 import urllib2
 import urlparse
 
 
-class RetryLimitingHTTPPasswordMgrWithDefaultRealm(urllib2.HTTPPasswordMgrWithDefaultRealm):
+class RetryLimitingHTTPPasswordMgrWithDefaultRealm(  # pylint: disable=too-few-public-methods
+        urllib2.HTTPPasswordMgrWithDefaultRealm):
     """ Fixes http://bugs.python.org/issue8797 for certain Python versions provided by Linux packaging
         and still running in the wild.
     """

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# pylint: disable=
+# pylint: disable=too-few-public-methods
 """ py.test dynamic configuration.
 
     For details needed to understand these tests, refer to:
@@ -22,8 +22,11 @@
 from __future__ import absolute_import, unicode_literals, print_function
 
 import logging
+import unittest
 
 import pytest
+
+from jmx4py.jolokia import client, connection
 
 
 # Globally available fixtures
@@ -32,3 +35,39 @@ def logger():
     """Test logger instance as a fixture."""
     logging.basicConfig(level=logging.DEBUG)
     return logging.getLogger('tests')
+
+
+class JmxMockedConnection(connection.JmxConnection):
+    """ JMX Proxy Connection Mock.
+    """
+
+    def __init__(self, url):
+        """ Create a proxy connection.
+        """
+        super(JmxMockedConnection, self).__init__(url)
+
+
+    def open(self):
+        """ Open the connection.
+        """
+
+
+    def close(self):
+        """ Close the connection and release associated resources.
+        """
+
+
+    def _do_send(self, data):
+        """ Perform a single request and return the deserialized response.
+        """
+
+connection.JmxConnection.register("mock", JmxMockedConnection)
+
+
+# @attr("jvm")
+class JvmTestCase(unittest.TestCase):
+    """ Test base class that provides an already prepared client.
+    """
+
+    def setUp(self):
+        self.proxy = client.JmxClient(("localhost", 8089))
